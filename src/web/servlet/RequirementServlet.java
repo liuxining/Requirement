@@ -87,7 +87,7 @@ public class RequirementServlet extends HttpServlet {
 			rBean.setSuggest(suggest);
 			log.info(rBean);
 			requirementDao.shenHe(id,suggest,status2);
-			resp.sendRedirect("requirementServlet?method=list&to=index_list1Requirement&status2=1&currentPage=" + currentPage + "&name=" + name);
+			resp.sendRedirect("requirementServlet?method=list&to=index_list1Requirement&status2=1&currentPage=" + currentPage + "&name=" + name + "&status=1");
 		} catch (SQLException | IOException e) {
 			e.printStackTrace();
 		}
@@ -117,6 +117,7 @@ public class RequirementServlet extends HttpServlet {
 		String status2Str = req.getParameter("status2");
 		String to = req.getParameter("to");
 		int status2 = StringUtil.stringToInt(status2Str);
+		String status = req.getParameter("status");
 		int currentPage = StringUtil.stringToInt(req.getParameter("currentPage"));
 		req.setAttribute("currentPage", currentPage);
 		req.setAttribute("name", name);
@@ -136,7 +137,7 @@ public class RequirementServlet extends HttpServlet {
 			req.setAttribute("pagingMsg", pagingBean.getHtmlMsg());
 			log.info("list:" + list);
 			log.info("pagingMsg:" + pagingBean.getHtmlMsg());
-			to = to.replace("_", "/") + ".jsp" + (name != null ? ("?name=" + name) : "");
+			to = to.replace("_", "/") + ".jsp" + (name != null ? ("?name=" + name) : "") + (status != null ? ("&status=" + status) : "");
 			req.getRequestDispatcher(to).forward(req, resp);
 		} catch (SQLException | ServletException | IOException e) {
 			e.printStackTrace();

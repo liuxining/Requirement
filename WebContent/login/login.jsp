@@ -94,6 +94,15 @@
 <script type="text/javascript"
 	src="${pageContext.request.contextPath }/static/js/myvalidate.js"></script>
 <script type="text/javascript">
+	
+
+
+	if(window != top){
+		top.location.href = location.href;
+	}
+</script>
+
+<script type="text/javascript">
 	function tiJiao(){
 		var username = $("#username").val();
 		var password = $("#password").val();

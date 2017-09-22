@@ -115,7 +115,7 @@
 			<div class="ListTitlePanel">
 				<div class="ListTitle">
 					<img src="../index/lefticon.png">
-					<strong>安全退出</strong>
+					<a href="${pageContext.request.contextPath }/userServlet?method=logout">安全退出</a>
 					<div class="leftbgbt2"> </div>
 				</div>
 			</div>

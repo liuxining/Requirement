@@ -65,7 +65,14 @@
 			<div style="margin: 8px auto 0 auto;font-size: 16px;">
 				${pagingMsg}
 			</div>
-		
+			<div style="margin: 16px auto 0 auto;font-size: 16px;">
+				<c:if test="${param.status == 1}">
+					<script type="text/javascript">
+						alert("审核成功");
+					</script>
+				</c:if>
+			</div>
+					
 	</div>
 </div>
 

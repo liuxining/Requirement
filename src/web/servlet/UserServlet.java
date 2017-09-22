@@ -67,6 +67,18 @@ public class UserServlet extends HttpServlet {
 		else if("modifyPassword".equals(method)){
 			modifyPassword(req,resp);
 		}
+		else if("logout".equals(method)){
+			logout(req,resp);
+		}
+	}
+
+	private void logout(HttpServletRequest req, HttpServletResponse resp) {
+		req.getSession().invalidate();
+		try {
+			resp.sendRedirect(req.getContextPath() + "/login/login.jsp");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void modifyPassword(HttpServletRequest req, HttpServletResponse resp) {
