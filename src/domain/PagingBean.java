@@ -15,65 +15,25 @@ public class PagingBean {
 
 	public String getHtmlMsg() {
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("<ul class='am-pagination'>");
-		//添加首页和上一页
+		buffer.append("共<strong class='redFont'>" + this.getTotalCount() + "</strong>条");
+		buffer.append(",当前第<strong class='redFont'>" + (this.getCurrentPage() + 1) + "</strong>页");
+		buffer.append("/共<strong class='redFont'>" + this.getTotalPage() + "</strong>页");
 		if(this.getCurrentPage() <= 0){
-			//当前页为第一页
-			buffer.append("<li class='am-disabled'><a href='#'>首页</a></li>");
-			buffer.append("<li class='am-disabled'><a href='#'>上一页</a></li>");
+			//无上一页
+			buffer.append("&nbsp;&nbsp;&nbsp;&nbsp;<strong class='redFont'><a href='javascript:void(0)'>上一页</a></strong>");
 		}
 		else{
-			//当前页不是第一页
-			if(isJson){
-				buffer.append("<li><a href='#' onclick='showNext(0)'>首页</a></li>");
-				buffer.append("<li><a href='#' onclick='showNext(");
-				buffer.append(this.getCurrentPage() - 1);
-				buffer.append(")'>上一页</a></li>");
-				
-			}
-			else{
-				buffer.append("<li><a href='");
-				buffer.append(this.getPreUrl() + (this.isAnd() ? "&" : "?") + "page=0");
-				buffer.append("'>首页</a></li>");
-				buffer.append("<li><a href='");
-				buffer.append(this.getPreUrl() + (this.isAnd() ? "&" : "?") + "page=" + (this.getCurrentPage() - 1));
-				buffer.append("'>上一页</a></li>");
-			}
+			buffer.append("&nbsp;&nbsp;&nbsp;&nbsp;<strong class='redFont'><a href='" + this.getPreUrl() + "&currentPage=" + (this.getCurrentPage() - 1) + "'>上一页</a></strong>");
 		}
-		//添加尾页和下一页
-		if((this.getCurrentPage() == (this.getTotalPage() - 1)) || this.getTotalPage() == 0){
-			//当前页为最后一页
-			buffer.append("<li class='am-disabled'><a href='#'>下一页</a></li>");
-			buffer.append("<li class='am-disabled'><a href='#'>尾页</a></li>");
+		if(this.getTotalPage() - 1 == this.getCurrentPage()){
+			//无下一页
+			buffer.append("&nbsp;&nbsp;&nbsp;&nbsp;<strong class='redFont'><a href='javascript:void(0)'>下一页</a></strong>");
+			
 		}
 		else{
-			//当前页不是最后一页
-			if(isJson){
-				buffer.append("<li><a href='#' onclick='showNext(");
-				buffer.append(this.currentPage + 1);
-				buffer.append(")'>下一页</a></li>");
-				buffer.append("<li><a href='#' onclick='showNext(");
-				buffer.append(this.totalPage - 1);
-				buffer.append(")'>尾页</a></li>");
-			}
-			else{
-				buffer.append("<li><a href='");
-				buffer.append(this.getPreUrl() + (this.isAnd() ? "&" : "?") + "page=" + (this.getCurrentPage() + 1));
-				buffer.append("'>下一页</a></li>");
-				buffer.append("<li><a href='");
-				buffer.append(this.getPreUrl() + (this.isAnd() ? "&" : "?") + "page=" + (this.getTotalPage() - 1));
-				buffer.append("'>尾页</a></li>");
-			}
+			
+			buffer.append("&nbsp;&nbsp;&nbsp;&nbsp;<strong class='redFont'><a href='" + this.getPreUrl() + "&currentPage=" + (this.getCurrentPage() + 1) + "'>下一页</a></strong>");
 		}
-		
-		//添加当前页码和总页码
-		buffer.append("<li><a href='#'>");
-		buffer.append("<span>");
-		buffer.append(this.getTotalPage() > 0 ? (this.getCurrentPage() + 1) : "0");
-		buffer.append("/" + this.getTotalPage());
-		buffer.append("</span></a></li>");
-		buffer.append("</ul>");
-
 		return buffer.toString();
 	}
 

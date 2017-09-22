@@ -34,7 +34,9 @@
 			</div>
 			<div class="menuList">
 				<div> <a href="addRequirement.jsp" target="mainAction">需求征集</a></div>
-				<div> <a href="${pageContext.request.contextPath}/admin/adminServlet?method=list" target="mainAction">查看管理员信息</a> </div>
+				<div> <a href="${pageContext.request.contextPath}/requirementServlet?method=list&to=index_listRequirement" target="mainAction">查看需求</a> </div>
+				<div> <a href="${pageContext.request.contextPath}/requirementServlet?method=list&status2=1&to=index_list1Requirement" target="mainAction">需求审核</a> </div>
+				<div> <a href="${pageContext.request.contextPath}/index/modifyPassword.jsp" target="mainAction">修改密码</a> </div>
 			</div>
 		</div>
 		<div class="menuParent">
@@ -46,8 +48,7 @@
 				</div>
 			</div>
 			<div class="menuList">
-				<div> <a href="product/type/productTypeServlet?method=toAdd" target="mainAction">添加分类</a></div>
-				<div> <a href="product/type/productTypeServlet?method=list&id=0" target="mainAction">查看分类</a></div>
+				
 			</div>
 		</div>
 		<div class="menuParent">
@@ -59,8 +60,7 @@
 				</div>
 			</div>
 			<div class="menuList">
-				<div> <a href="product/property/productPropertyServlet?method=toAdd" target="mainAction">添加商品属性</a></div>
-				<div> <a href="product/property/productPropertyServlet?method=list" target="mainAction">查看商品属性</a></div>
+				
 			</div>
 		</div>
 		<div class="menuParent">
@@ -72,8 +72,7 @@
 				</div>
 			</div>
 			<div class="menuList">
-				<div> <a href="product/option/productOptionServlet?method=toAdd" target="mainAction">添加商品属性选项</a></div>
-				<div> <a href="product/option/productOptionServlet?method=list" target="mainAction">查看商品属性选项</a></div>
+				
 			</div>
 		</div>
 		<div class="menuParent">

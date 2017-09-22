@@ -8,8 +8,9 @@ public interface UserDao {
 
 	UserBean getByUsername(String username) throws SQLException;
 
-	void update(UserBean userBean);
+	void update(UserBean userBean) throws SQLException;
 
 	void add(UserBean userBean) throws SQLException;
+
 
 }

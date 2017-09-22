@@ -1,6 +1,7 @@
 package web.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 
@@ -23,7 +24,7 @@ import utils.StringUtil;
 /**
  * Servlet implementation class UserServlet
  */
-@WebServlet("/UserServlet")
+@WebServlet("/userServlet")
 public class UserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static Logger log = Logger.getLogger(UserServlet.class.getName());
@@ -69,24 +70,31 @@ public class UserServlet extends HttpServlet {
 	}
 
 	private void modifyPassword(HttpServletRequest req, HttpServletResponse resp) {
+		
+		String oldpassword = req.getParameter("oldpassword");
 		String password = req.getParameter("password");
-		String newpassword = req.getParameter("newpassword");
+		String password2 = req.getParameter("password2");
 		try {
-			UserBean loginUserBean = (UserBean) req.getSession().getAttribute("loginUserBean");
-			if(MD5Util.verifyPassword(password, loginUserBean.getSalt(), loginUserBean.getPassword())){
-				//旧密码验证成功
-				String salt = StringUtil.getRandomStr(8);
-				loginUserBean.setSalt(salt);
-				loginUserBean.setPassword(MD5Util.generalPasswordHash(newpassword, salt));
-				userDao.update(loginUserBean);
-				resp.sendRedirect("modifyPassword.jsp?status=1");
+			if(!password.equals(password2)){
+				resp.sendRedirect("index/modifyPassword.jsp?status=3");
 			}
 			else{
-				//旧密码验证失败
-				resp.sendRedirect("modifyPassword.jsp?status=3");
-				
+				UserBean loginUserBean = (UserBean) req.getSession().getAttribute("loginUserBean");
+				if(MD5Util.verifyPassword(oldpassword, loginUserBean.getSalt(), loginUserBean.getPassword())){
+					//旧密码验证成功
+					String salt = StringUtil.getRandomStr(8);
+					loginUserBean.setSalt(salt);
+					loginUserBean.setPassword(MD5Util.generalPasswordHash(password, salt));
+					userDao.update(loginUserBean);
+					resp.sendRedirect("index/modifyPassword.jsp?status=1");
+				}
+				else{
+					//旧密码验证失败
+					resp.sendRedirect("index/modifyPassword.jsp?status=2");
+					
+				}
 			}
-		} catch (IOException e) {
+		} catch (IOException | SQLException e) {
 			e.printStackTrace();
 		}
 		
@@ -95,52 +103,79 @@ public class UserServlet extends HttpServlet {
 	private void login(HttpServletRequest req, HttpServletResponse resp) {
 		String username = req.getParameter("username");
 		String password = req.getParameter("password");
-		UserBean userBean;
+		String checkCodeInput = req.getParameter("checkCodeInput");
+		String checkCode = (String) req.getSession().getAttribute("checkCode");
+		log.info("username:" + username);
+		log.info("password:" + password);
+		log.info("checkCodeInput:" + checkCodeInput);
+		log.info("checkCode:" + checkCode);
 		try {
-			userBean = userDao.getByUsername(username);
-			if(userBean != null){
-				if(MD5Util.verifyPassword(password,userBean.getSalt(),userBean.getPassword())){
-					log.debug("账号 " + username + " 登录成功");
-					req.getSession().setAttribute("loginUserBean", userBean);
-					resp.sendRedirect("index.jsp");
-				}
-				else{
-					log.debug("账号" + username + "密码错误");
-					resp.sendRedirect("login.jsp?status=2");
-					
-				}
+			PrintWriter out = resp.getWriter();
+			if(!checkCodeInput.equals(checkCode)){
+				out.println("3");
 			}
 			else{
-				log.debug("账号" + username + "不存在");
-				resp.sendRedirect("login.jsp?status=1");
+				UserBean userBean;
+				userBean = userDao.getByUsername(username);
+				if(userBean != null){
+					if(MD5Util.verifyPassword(password,userBean.getSalt(),userBean.getPassword())){
+						log.debug("账号 " + username + " 登录成功");
+						req.getSession().setAttribute("loginUserBean", userBean);
+						req.getSession().setAttribute("nowDate", DateUtil.getDate());
+						
+						out.print("4");
+						
+					}
+					else{
+						log.debug("账号" + username + "密码错误");
+						out.println("2");
+					}
+				}
+				else{
+					log.debug("账号" + username + "不存在");
+					out.println("1");
+				}
 			}
-		} catch (SQLException | IOException e) {
-			e.printStackTrace();
+			out.flush();
+			out.close();
+		} catch (IOException | SQLException e1) {
+			e1.printStackTrace();
 		}
 	}
 
 	private void add(HttpServletRequest req, HttpServletResponse resp) {
-		UserBean userBean = new UserBean();
+		String checkCodeInput = req.getParameter("checkCodeInput");
+		String checkCode = (String) req.getSession().getAttribute("checkCode");
 		try {
-			BeanUtils.populate(userBean, req.getParameterMap());
-			if(userBean.getId() != 0){
-				//更新
-				userDao.update(userBean);
+			PrintWriter out = resp.getWriter();
+			if(!checkCode.equals(checkCodeInput)){
+				out.println("2");
+				
 			}
 			else{
-				//添加
-				String salt = StringUtil.getRandomStr(8);
-				userBean.setSalt(salt);
-				userBean.setPassword(MD5Util.generalPasswordHash(userBean.getPassword(),salt));
-				userBean.setCreateDate(DateUtil.getDate());
-				userDao.add(userBean);
-				System.out.println(userBean);
-				resp.sendRedirect("login.jsp?status=1");
+				
+				UserBean userBean = new UserBean();
+				
+				BeanUtils.populate(userBean, req.getParameterMap());
+				if(userDao.getByUsername(userBean.getUsername()) != null){
+					out.println("1");
+				}
+				else{
+					String salt = StringUtil.getRandomStr(8);
+					userBean.setSalt(salt);
+					userBean.setPassword(MD5Util.generalPasswordHash(userBean.getPassword(),salt));
+					userBean.setCreateDate(DateUtil.getDate());
+					userDao.add(userBean);
+					System.out.println(userBean);
+					out.println("3");
+					
+				}
 			}
-		} catch (IllegalAccessException | InvocationTargetException | SQLException | IOException e) {
-			e.printStackTrace();
+			out.flush();
+			out.close();
+		} catch (IOException | IllegalAccessException | InvocationTargetException | SQLException e1) {
+			e1.printStackTrace();
 		}
-		
 		
 	}
 	

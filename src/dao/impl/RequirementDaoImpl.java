@@ -29,17 +29,16 @@ public class RequirementDaoImpl implements RequirementDao {
 	@Override
 	public void add(RequirementBean rBean) throws SQLException {
 		QueryRunner qr = new QueryRunner(DataSourceUtil.getDataSource());
-		String sql = "insert into technicalRequirement(name,intro,researchType,technicalRequirement,cooperationModel,planAllInvest,createDate) "
-				+ "values(?,?,?,?,?,?,?)";
-		qr.update(sql,rBean.getName(),rBean.getIntro(),rBean.getResearchType(),rBean.getTechnicalRequirement(),rBean.getCooperationModel(),rBean.getPlanAllInvest(),rBean.getCraeteDate());
+		String sql = "insert into requirements(name,intro,userId,researchType,cooperationModel,planAllInvest,createDate,status,suggest) values(?,?,?,?,?,?,?,?,?)";
+		qr.update(sql,rBean.getName(),rBean.getIntro(),rBean.getUserId(),rBean.getResearchType(),rBean.getCooperationModel(),rBean.getPlanAllInvest(),rBean.getCreateDate(),rBean.getStatus(),rBean.getSuggest());
 	}
 
 	@Override
 	public int getCount(String name, int status) throws SQLException {
 		QueryRunner qr = new QueryRunner(DataSourceUtil.getDataSource());
-		String sql = "select * from technicalRequirement where 1=1";
+		String sql = "select count(*) from requirements where 1=1";
 		if(name != null && name.length() > 0){
-			sql += " and name='" + name + "'";
+			sql += " and name like '%" + name + "%'";
 		}
 		if(status != 0){
 			sql += " and status=" + status;
@@ -52,14 +51,14 @@ public class RequirementDaoImpl implements RequirementDao {
 	@Override
 	public List<RequirementBean> getAll(String name, int status, int start, int size) throws SQLException {
 		QueryRunner qr = new QueryRunner(DataSourceUtil.getDataSource());
-		String sql = "select * from technicalRequirement where 1=1";
+		String sql = "select * from requirements where 1=1";
 		if(name != null && name.length() > 0){
-			sql += " and name='" + name + "'";
+			sql += " and name like '%" + name + "%'";
 		}
 		if(status != 0){
 			sql += " and status=" + status;
 		}
-		sql += " limit " + start + "," + size;
+		sql += " order by id desc limit " + start + "," + size;
 		List<RequirementBean> list = qr.query(sql, new BeanListHandler<RequirementBean>(RequirementBean.class));
 		return list;
 		
@@ -68,9 +67,17 @@ public class RequirementDaoImpl implements RequirementDao {
 	@Override
 	public RequirementBean getById(int id) throws SQLException {
 		QueryRunner qr = new QueryRunner(DataSourceUtil.getDataSource());
-		String sql = "select * from technicalRequirement where id=?";
-		RequirementBean rBean = qr.query(sql, new BeanHandler<RequirementBean>(RequirementBean.class));
+		String sql = "select * from requirements where id=?";
+		RequirementBean rBean = qr.query(sql, new BeanHandler<RequirementBean>(RequirementBean.class),id);
 		return rBean;
 	}
+
+	@Override
+	public void shenHe(int id,String suggest,int status) throws SQLException {
+		QueryRunner qr = new QueryRunner(DataSourceUtil.getDataSource());
+		String sql = "update requirements set suggest=?,status=? where id=?";
+		qr.update(sql, suggest,status,id);
+	}
+
 
 }

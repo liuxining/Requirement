@@ -6,18 +6,18 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>需求征集</title>
 
-<link rel="stylesheet" type="text/css" href="../static/css/main.css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/static/css/main.css">
 
-<script type="text/javascript" src="../static/js/jquery-1.12.1.js"></script>
-<script type="text/javascript" src="../static/js/my.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/static/js/jquery-1.12.1.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/static/js/my.js"></script>
 
 
 </head>
-<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" style="text-align: center;">
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" style="text-align: center;background-color: #DCEEFC;">
 
 	<div class="mainAction" style="text-align:center;align-content: center;">
 		<p style="text-align: center;font-size: 30px;">河北省重大需求技术征集表</p>
-		<form action="${pageContext.request.contextPath}/Requirement?method=add" method="post">
+		<form action="${pageContext.request.contextPath}/requirementServlet?method=add" method="post">
 			<table border="1" style="border-collapse: collapse;margin: 2px auto 0 auto;font-size: 20px;">
 				<tr>
 					<td>技术需求名称</td>
@@ -28,9 +28,7 @@
 				</tr>
 				<tr>
 					<td colspan="2" style="border-top-style: none;">
-						<textarea name="intro" class="fullTd" rows="5" style="border-style: none;">
-							
-						</textarea>
+						<textarea name="intro" class="fullTd" rows="8" style="border-style: none;"></textarea>
 					</td>
 					
 				</tr>
@@ -60,8 +58,11 @@
 				</tr>
 				
 			</table>
-			<input type="submit" value="提交">
+			<div style="margin: 8px;">
+				<input type="submit" class="btnMy" value="提交">
+			</div>
 		</form>
 	</div>
+
 </body>
 </html>

@@ -6,14 +6,15 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 </head>
-	<frameset rows="100px,*" frameborder="no">
-		<frame src="${pageContext.request.contextPath}/index/head.jsp" />
-		<frameset cols="203px,*">
-			<frame src="${pageContext.request.contextPath}/index/left.jsp" />
-			<frameset rows="36px,*">
-				<frame src="${pageContext.request.contextPath}/index/mainBar.jsp" />
-				<frame name="mainAction" src="${pageContext.request.contextPath }/index/index.html">
-			</frameset>
+<frameset rows="73px,*" frameborder="no">
+	<frame src="${pageContext.request.contextPath}/index/head.jsp"/>
+	<frameset cols="203px,*">
+		<frame src="${pageContext.request.contextPath}/index/left.jsp"/>
+		<frameset rows="40px,*">
+			<frame src="${pageContext.request.contextPath }/index/mainBar.jsp" />	
+			<frame src="${pageContext.request.contextPath }/index/index.html" name="mainAction"/>
 		</frameset>
 	</frameset>
+</frameset>
+
 </html>

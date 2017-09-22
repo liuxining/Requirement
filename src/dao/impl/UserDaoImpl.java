@@ -20,8 +20,10 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public void update(UserBean userBean) {
-		
+	public void update(UserBean userBean) throws SQLException {
+		QueryRunner qr = new QueryRunner(DataSourceUtil.getDataSource());
+		String sql = "update users set password=?,salt=? where id=?";
+		qr.update(sql, userBean.getPassword(),userBean.getSalt(),userBean.getId());
 	}
 
 	@Override

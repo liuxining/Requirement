@@ -15,4 +15,7 @@ public interface RequirementDao {
 
 	RequirementBean getById(int id) throws SQLException;
 
+	void shenHe(int id,String suggest, int status) throws SQLException;
+
+
 }

@@ -3,21 +3,43 @@ package domain;
 public class RequirementBean {
 	private int id;
 	private String name;
+	private int userId;
 	private String intro;
 	private String researchType;
-	private String cooperationModel;
+	private int cooperationModel;
 	private double planAllInvest;
 	private int status;
-	private String craeteDate;
+	private String createDate;
+	private String suggest;
+	
+	
+	
 	
 	
 		
-	public String getCraeteDate() {
-		return craeteDate;
+	public String getSuggest() {
+		return suggest;
 	}
 
-	public void setCraeteDate(String craeteDate) {
-		this.craeteDate = craeteDate;
+	public void setSuggest(String suggest) {
+		this.suggest = suggest;
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+	
+	public String getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(String createDate) {
+		this.createDate = createDate;
 	}
 
 	public int getId() {
@@ -63,11 +85,12 @@ public class RequirementBean {
 		this.status = status;
 	}
 
-	public String getCooperationModel() {
+	
+	public int getCooperationModel() {
 		return cooperationModel;
 	}
 
-	public void setCooperationModel(String cooperationModel) {
+	public void setCooperationModel(int cooperationModel) {
 		this.cooperationModel = cooperationModel;
 	}
 
@@ -78,5 +101,15 @@ public class RequirementBean {
 	public void setPlanAllInvest(double planAllInvest) {
 		this.planAllInvest = planAllInvest;
 	}
+
+	@Override
+	public String toString() {
+		return "RequirementBean [id=" + id + ", name=" + name + ", userId=" + userId + ", intro=" + intro
+				+ ", researchType=" + researchType + ", cooperationModel=" + cooperationModel + ", planAllInvest="
+				+ planAllInvest + ", status=" + status + ", createDate=" + createDate + ", suggest=" + suggest + "]";
+	}
+
+	
+	
 
 }

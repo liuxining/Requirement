@@ -13,8 +13,7 @@
 <script type="text/javascript">
 	function func(){
 		var name = $("#name").val();
-		var status2 = $("#status2").val();
-		window.location.href = "${pageContext.request.contextPath}/requirementServlet?method=list&to=index_listRequirement&name=" + name + "&status2=" + status2;
+		window.location.href = "${pageContext.request.contextPath}/requirementServlet?method=list&status2=1&to=index_list1Requirement&name=" + name;
 	}
 </script>
 </head>
@@ -25,31 +24,11 @@
 			<a href="${pageContext.request.contextPath}/index/addRequirement.jsp" target="mainAction"><button class="btnMy">添加技术需求</button></a>
 		</p>
 		<div>
-			<!-- <form action="${pageContext.request.contextPath}/requirementServlet?method=list&to=index_listRequirement" method="post"> -->
+			<!-- <form action="${pageContext.request.contextPath}/requirementServlet?method=list&to=index_list1Requirement" method="post"> -->
 				技术需求名称：<input type="text" name="name" id="name" value="${param.name}" />
-				需求状态：
-				<select name="status2" id="status2">
-					<option value="0">全部</option>
-					<c:if test="${status2 == '1'}">
-						<option value="1" selected="selected">未审核</option>
-					</c:if>
-					<c:if test="${status2 != '1'}">
-						<option value="1">未审核</option>
-					</c:if>
-					<c:if test="${status2 == '2'}">
-						<option value="2" selected="selected">已审核</option>
-					</c:if>
-					<c:if test="${status2 != '2'}">
-						<option value="2">已审核</option>
-					</c:if>
-					<c:if test="${status2 == '3'}">
-						<option value="3" selected="selected">被退回</option>
-					</c:if>
-					<c:if test="${status2 != '3'}">
-						<option value="3">被退回</option>
-					</c:if>
-				</select>
-			<button class="btnMy" onclick="func();">查询</button>&nbsp;&nbsp;&nbsp;&nbsp;<a href="${pageContext.request.contextPath}/requirementServlet?method=list&to=index_listRequirement"><button class="btnMy">显示全部</button></a>
+				<input type="hidden" name="status2" value="1" />
+			<!-- </form> -->
+			 <button class="btnMy" onclick="func();">查询</button>&nbsp;&nbsp;&nbsp;&nbsp;<a href="${pageContext.request.contextPath}/requirementServlet?method=list&status2=1&to=index_list1Requirement" target="mainAction"><button class="btnMy">显示全部</button></a>
 			
 		</div>
 		<div>
@@ -64,7 +43,7 @@
 				<c:forEach items="${requirementList}" var="item">
 					<tr>
 						<td>${item.id}</td>
-						<td><a href="${pageContext.request.contextPath}/requirementServlet?method=detail&id=${item.id}&to=index_detailRequirement">${item.name}</a></td>
+						<td><a href="${pageContext.request.contextPath}/requirementServlet?method=detail&id=${item.id}&to=index_shenHeRequirement&currentPage=${currentPage}&name=${name}">${item.name}</a></td>
 						<td>${item.createDate}</td>
 						<td>
 							<c:if test="${item.status == 1}">
